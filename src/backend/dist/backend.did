@@ -1,0 +1,142 @@
+type UserInput = 
+ record {
+   collegeName: opt text;
+   email: text;
+   name: text;
+   phone: text;
+ };
+type UserId = principal;
+type User = 
+ record {
+   collegeName: opt text;
+   createdAt: Timestamp;
+   email: text;
+   id: UserId;
+   isAdmin: bool;
+   name: text;
+   phone: text;
+ };
+type Timestamp = nat;
+type NotificationId = nat;
+type Notification = 
+ record {
+   bookId: BookId;
+   bookTitle: text;
+   buyerEmail: text;
+   buyerId: UserId;
+   buyerName: text;
+   buyerPhone: text;
+   createdAt: Timestamp;
+   id: NotificationId;
+   interestId: InterestId;
+   isRead: bool;
+ };
+type InterestWithDetails = 
+ record {
+   bookId: BookId;
+   bookTitle: text;
+   buyerEmail: text;
+   buyerId: UserId;
+   buyerName: text;
+   buyerPhone: text;
+   createdAt: Timestamp;
+   id: InterestId;
+ };
+type InterestId = nat;
+type Interest = 
+ record {
+   bookId: BookId;
+   buyerId: UserId;
+   createdAt: Timestamp;
+   id: InterestId;
+ };
+type BookStatus = 
+ variant {
+   available;
+   sold;
+ };
+type BookInput = 
+ record {
+   author: text;
+   photoUrl: opt text;
+   price: nat;
+   subject: text;
+   title: text;
+ };
+type BookId = nat;
+type Book = 
+ record {
+   author: text;
+   createdAt: Timestamp;
+   id: BookId;
+   photoUrl: opt text;
+   price: nat;
+   sellerId: UserId;
+   status: BookStatus;
+   subject: text;
+   title: text;
+ };
+service : {
+  __books: (ko: opt BookId, count: opt nat) ->
+   (vec record {
+          BookId;
+          Book;
+        }) query;
+  __interests: (ko: opt InterestId, count: opt nat) ->
+   (vec record {
+          InterestId;
+          Interest;
+        }) query;
+  __nextBookId: () -> (reserved) query;
+  __nextInterestId: () -> (reserved) query;
+  __nextNotificationId: () -> (reserved) query;
+  __notifications: (ko: opt NotificationId, count: opt nat) ->
+   (vec record {
+          NotificationId;
+          Notification;
+        }) query;
+  __users: (ko: opt UserId, count: opt nat) ->
+   (vec record {
+          UserId;
+          User;
+        }) query;
+  adminConfirmAvailability: (id: BookId) -> (opt Book);
+  adminDeleteBook: (id: BookId) -> (bool);
+  adminDeleteUser: (id: UserId) -> (bool);
+  adminGetNewInterestNotifications: () -> (vec InterestWithDetails);
+  adminGetSellerContact: (bookId: BookId) ->
+   (opt record {
+          email: text;
+          name: text;
+          phone: text;
+        });
+  adminListAllInterests: () -> (vec InterestWithDetails);
+  adminMarkBookSold: (id: BookId) -> (opt Book);
+  adminUpdateBook: (id: BookId, input: BookInput) -> (opt Book);
+  createBook: (input: BookInput) -> (Book);
+  deleteBook: (id: BookId) -> (bool);
+  deleteInterest: (id: InterestId) -> (bool);
+  deleteUser: (id: UserId) -> (bool);
+  expressInterest: (bookId: BookId) -> (Interest);
+  getAdminNotifications: () -> (vec Notification);
+  getBook: (id: BookId) -> (opt Book) query;
+  getInterest: (id: InterestId) -> (opt Interest) query;
+  getInterestsForMyBooks: () -> (vec Interest);
+  getMyBooks: () -> (vec Book);
+  getMyInterests: () -> (vec Interest);
+  getMyProfile: () -> (opt User) query;
+  getUnreadAdminNotificationCount: () -> (nat);
+  getUser: (id: UserId) -> (opt User) query;
+  listBooks: () -> (vec Book) query;
+  listInterests: () -> (vec Interest) query;
+  listInterestsWithDetails: () -> (vec InterestWithDetails) query;
+  listUsers: () -> (vec User) query;
+  markAdminNotificationAsRead: (id: NotificationId) -> (opt Notification);
+  registerUser: (input: UserInput) -> (User);
+  searchBooks: (searchTerm: opt text, collegeFilter: opt text) ->
+   (vec Book) query;
+  setAdmin: (id: UserId, admin: bool) -> (opt User);
+  updateBook: (id: BookId, input: BookInput) -> (opt Book);
+  updateMyProfile: (input: UserInput) -> (opt User);
+  updateUser: (id: UserId, input: UserInput) -> (opt User);
+}

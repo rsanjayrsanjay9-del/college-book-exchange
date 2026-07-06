@@ -1,0 +1,181 @@
+// Version: 4.0.0
+type BookId__1018210009 = Nat;
+type BookStatus__105134168 = {#available; #sold};
+type Book__1005843941 =
+  {
+    author : Text;
+    createdAt : Nat;
+    id : Nat;
+    photoUrl : ?Text;
+    price : Nat;
+    sellerId : Principal;
+    status : {#available; #sold};
+    subject : Text;
+    title : Text
+  };
+type Book__473287601 =
+  {
+    author : Text;
+    createdAt : Timestamp__301639476;
+    id : BookId__1018210009;
+    photoUrl : ?Text;
+    price : Nat;
+    sellerId : UserId__158757552;
+    status : BookStatus__105134168;
+    subject : Text;
+    title : Text
+  };
+type Book__608313756 =
+  {
+    author : Text;
+    createdAt : Nat;
+    id : Nat;
+    photoUrl : ?Text;
+    price : Nat;
+    sellerId : Principal;
+    status : {#available; #sold};
+    subject : Text;
+    title : Text
+  };
+type Data__552063367<K, V> = {var count : Nat__93962160; kvs : [var ?(K, V)]};
+type InterestId__804177326 = Nat;
+type Interest__384138477 =
+  {
+    bookId : BookId__1018210009;
+    buyerId : UserId__158757552;
+    createdAt : Timestamp__301639476;
+    id : InterestId__804177326
+  };
+type Interest__895199159 =
+  {bookId : Nat; buyerId : Principal; createdAt : Nat; id : Nat};
+type Interest__946042173 =
+  {bookId : Nat; buyerId : Principal; createdAt : Nat; id : Nat};
+type Internal__455405067<K, V> =
+  {children : [var ?Node__279997185<K, V>]; data : Data__552063367<K, V>};
+type Leaf__114713147<K, V> = {data : Data__552063367<K, V>};
+type Map__190625089<K, V> = Map__719753394<K, V>;
+type Map__246123559<K, V> = Map__190625089<K, V>;
+type Map__719753394<K, V> =
+  {var root : Node__279997185<K, V>; var size : Nat__93962160};
+type Nat__920180692 = Nat;
+type Nat__93962160 = Nat__920180692;
+type NewActor__32248262 =
+  {
+    var books : Map__246123559<Nat, Book__608313756>;
+    var interests : Map__246123559<Nat, Interest__946042173>;
+    var nextBookId : {var value : Nat};
+    var nextInterestId : {var value : Nat};
+    var nextNotificationId : {var value : Nat};
+    var notifications : Map__246123559<Nat, Notification__669524517>;
+    var users : Map__246123559<Principal, User__289518513>
+  };
+type NewActor__884501048 =
+  {
+    var books : Map__246123559<Nat, Book__1005843941>;
+    var interests : Map__246123559<Nat, Interest__895199159>;
+    var nextBookId : {var value : Nat};
+    var nextInterestId : {var value : Nat};
+    var users : Map__246123559<Principal, User__273938637>
+  };
+type Node__279997185<K, V> =
+  {#internal : Internal__455405067<K, V>; #leaf : Leaf__114713147<K, V>};
+type NotificationId__261776522 = Nat;
+type Notification__264708741 =
+  {
+    bookId : BookId__1018210009;
+    bookTitle : Text;
+    buyerEmail : Text;
+    buyerId : UserId__158757552;
+    buyerName : Text;
+    buyerPhone : Text;
+    createdAt : Timestamp__301639476;
+    id : NotificationId__261776522;
+    interestId : InterestId__804177326;
+    isRead : Bool
+  };
+type Notification__669524517 =
+  {
+    bookId : Nat;
+    bookTitle : Text;
+    buyerEmail : Text;
+    buyerId : Principal;
+    buyerName : Text;
+    buyerPhone : Text;
+    createdAt : Nat;
+    id : Nat;
+    interestId : Nat;
+    isRead : Bool
+  };
+type OldActor__572248615 =
+  {
+    var books : Map__246123559<Nat, Book__608313756>;
+    var interests : Map__246123559<Nat, Interest__946042173>;
+    var nextBookId : {var value : Nat};
+    var nextInterestId : {var value : Nat};
+    var users : Map__246123559<Principal, User__289518513>
+  };
+type OldActor__666938585 = {};
+type Timestamp__301639476 = Nat;
+type UserId__158757552 = Principal;
+type User__273938637 =
+  {
+    collegeName : ?Text;
+    createdAt : Nat;
+    email : Text;
+    id : Principal;
+    isAdmin : Bool;
+    name : Text;
+    phone : Text
+  };
+type User__289518513 =
+  {
+    collegeName : ?Text;
+    createdAt : Nat;
+    email : Text;
+    id : Principal;
+    isAdmin : Bool;
+    name : Text;
+    phone : Text
+  };
+type User__98118558 =
+  {
+    collegeName : ?Text;
+    createdAt : Timestamp__301639476;
+    email : Text;
+    id : UserId__158757552;
+    isAdmin : Bool;
+    name : Text;
+    phone : Text
+  };
+{
+  "20250621_000000_InitialState" :
+    (old : OldActor__666938585) -> NewActor__884501048;
+  "20250625_000000_AddNotifications" :
+    (old : OldActor__572248615) -> NewActor__32248262
+}
+actor  {
+  stable var books :
+    {
+      var root : Node__279997185<BookId__1018210009, Book__473287601>;
+      var size : Nat__93962160
+    };
+  stable var interests :
+    {
+      var root : Node__279997185<InterestId__804177326, Interest__384138477>;
+      var size : Nat__93962160
+    };
+  stable var nextBookId : {var value : BookId__1018210009};
+  stable var nextInterestId : {var value : InterestId__804177326};
+  stable var nextNotificationId : {var value : NotificationId__261776522};
+  stable var notifications :
+    {
+      var root :
+        Node__279997185<NotificationId__261776522, Notification__264708741>;
+      var size : Nat__93962160
+    };
+  stable var users :
+    {
+      var root : Node__279997185<UserId__158757552, User__98118558>;
+      var size : Nat__93962160
+    }
+};

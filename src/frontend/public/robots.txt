@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /profile
+Disallow: /interests
+Disallow: /admin
+Disallow: /post
+
+Sitemap: https://unibooks.app/sitemap.xml

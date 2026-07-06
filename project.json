@@ -1,0 +1,19 @@
+{
+  "overview": "Ex Books — a platform for students to buy and sell used textbooks within their college community.",
+  "features": [
+    "Browse and search books by college",
+    "Post books for sale with details and images",
+    "Express interest in books and contact sellers",
+    "User profiles with college affiliation",
+    "Admin dashboard for managing listings"
+  ],
+  "category": "marketplace",
+  "tags": [
+    "education",
+    "books",
+    "college",
+    "marketplace",
+    "student"
+  ],
+  "last_updated": "2026-06-25T05:58:44.672Z"
+}
